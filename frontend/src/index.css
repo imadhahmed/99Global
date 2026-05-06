@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #aa3bff;
+  --color-primary-light: rgba(170, 59, 255, 0.1);
+  --color-primary-dark: rgba(170, 59, 255, 0.5);
+  
+  --color-dark-bg: #0f1014;
+  --color-dark-surface: #16171d;
+  --color-dark-border: #2e303a;
+  
+  --color-gold: #d4af37;
+  --color-gold-light: #f3e5ab;
+  --color-gold-dark: #aa8c2c;
+}
+
+@layer base {
+  body {
+    @apply bg-dark-bg text-gray-300 font-sans antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-white font-medium tracking-tight;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-gold to-white;
+  }
+  
+  .glass-panel {
+    @apply bg-dark-surface/80 backdrop-blur-md border border-dark-border rounded-2xl shadow-xl;
+  }
+}
