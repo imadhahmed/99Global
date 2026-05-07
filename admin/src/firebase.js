@@ -5,13 +5,13 @@ import { getAuth } from "firebase/auth";
 
 // TODO: Replace this with your actual Firebase configuration object
 const firebaseConfig = {
-  apiKey: "AIzaSyCHLCLhD5t2mxYOxVMlRqUTr_Ju-qCftMw",
-  authDomain: "ninty-nine-global.firebaseapp.com",
-  projectId: "ninty-nine-global",
-  storageBucket: "ninty-nine-global.firebasestorage.app",
-  messagingSenderId: "1050513777562",
-  appId: "1:1050513777562:web:c65e1e3c97c31dc4389023",
-  measurementId: "G-507W8TJFPF"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase

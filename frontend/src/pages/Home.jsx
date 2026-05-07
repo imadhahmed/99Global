@@ -2,10 +2,27 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
-import { dummyProducts } from '../data/dummy';
+import { useState, useEffect } from 'react';
+import { collection, onSnapshot } from 'firebase/firestore';
+import { db } from '../firebase';
 
 export default function Home() {
-  const featuredProducts = dummyProducts.filter(p => p.featured).slice(0, 3);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, 'products'), (snapshot) => {
+      const productsData = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      // Use the first 3 products as featured
+      setFeaturedProducts(productsData.slice(0, 3));
+    }, (error) => {
+      console.error("Error fetching featured products:", error);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <div className="flex flex-col">

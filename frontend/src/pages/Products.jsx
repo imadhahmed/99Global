@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import ProductCard from '../components/ProductCard';
-import { dummyProducts } from '../data/dummy';
+import { collection, onSnapshot } from 'firebase/firestore';
+import { db } from '../firebase';
 
 export default function Products() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -10,8 +11,26 @@ export default function Products() {
   
   const [activeCategory, setActiveCategory] = useState(categoryParam || 'All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   
   const categories = ['All', 'Perfumes', 'Watches'];
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, 'products'), (snapshot) => {
+      const productsData = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setProducts(productsData);
+      setIsLoading(false);
+    }, (error) => {
+      console.error("Error fetching products:", error);
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     if (categoryParam && categories.includes(categoryParam)) {
@@ -29,10 +48,10 @@ export default function Products() {
     setSearchParams(searchParams);
   };
 
-  const filteredProducts = dummyProducts.filter(product => {
+  const filteredProducts = products.filter(product => {
     const matchesCategory = activeCategory === 'All' || product.category === activeCategory;
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          product.itemCode.toLowerCase().includes(searchQuery.toLowerCase());
+                          (product.itemCode && product.itemCode.toLowerCase().includes(searchQuery.toLowerCase()));
     return matchesCategory && matchesSearch;
   });
 
@@ -82,7 +101,11 @@ export default function Products() {
         </div>
       </div>
 
-      {filteredProducts.length > 0 ? (
+      {isLoading ? (
+        <div className="text-center py-24 text-gray-500">
+          <p className="text-xl">Loading collections...</p>
+        </div>
+      ) : filteredProducts.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProducts.map((product, index) => (
             <motion.div
