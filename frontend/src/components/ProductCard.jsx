@@ -1,19 +1,46 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 
 export default function ProductCard({ product }) {
+  const images = product.images && product.images.length > 0 
+    ? product.images 
+    : [product.image || 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=600'];
+  
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    let interval;
+    if (isHovered && images.length > 1) {
+      interval = setInterval(() => {
+        setCurrentImageIndex((prev) => (prev + 1) % images.length);
+      }, 1500);
+    } else {
+      setCurrentImageIndex(0);
+    }
+    return () => clearInterval(interval);
+  }, [isHovered, images.length]);
+
   return (
     <motion.div 
       whileHover={{ y: -10 }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
       className="glass-panel overflow-hidden group flex flex-col h-full"
     >
       <div className="relative aspect-[4/5] overflow-hidden bg-[#1f2028]">
-        <img 
-          src={product.image || 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=600'} 
-          alt={product.name}
-          className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
-        />
-        <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm text-white text-xs px-2 py-1 rounded border border-[#2e303a]">
+        {images.map((img, idx) => (
+          <img 
+            key={idx}
+            src={img} 
+            alt={`${product.name} - ${idx + 1}`}
+            className={`absolute inset-0 object-cover w-full h-full transition-all duration-700 ${
+              idx === currentImageIndex ? 'opacity-100 scale-105 z-0' : 'opacity-0 scale-100 -z-10'
+            }`}
+          />
+        ))}
+        <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm text-white text-xs px-2 py-1 rounded border border-[#2e303a] z-10">
           {product.itemCode}
         </div>
       </div>

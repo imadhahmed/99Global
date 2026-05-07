@@ -7,7 +7,7 @@ export default function ProductsManager() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({
-    name: '', itemCode: '', category: 'Perfumes', priceLKR: '', priceQAR: '', description: '', image: ''
+    name: '', itemCode: '', category: 'Perfumes', priceLKR: '', priceQAR: '', description: '', image: '', image2: '', image3: '', image4: ''
   });
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -31,13 +31,19 @@ export default function ProductsManager() {
   }, []);
 
   const handleAdd = () => {
-    setFormData({ name: '', itemCode: '', category: 'Perfumes', priceLKR: '', priceQAR: '', description: '', image: '' });
+    setFormData({ name: '', itemCode: '', category: 'Perfumes', priceLKR: '', priceQAR: '', description: '', image: '', image2: '', image3: '', image4: '' });
     setEditingId(null);
     setIsModalOpen(true);
   };
 
   const handleEdit = (product) => {
-    setFormData(product);
+    setFormData({
+      ...product,
+      image: product.images ? product.images[0] : (product.image || ''),
+      image2: product.images && product.images.length > 1 ? product.images[1] : '',
+      image3: product.images && product.images.length > 2 ? product.images[2] : '',
+      image4: product.images && product.images.length > 3 ? product.images[3] : '',
+    });
     setEditingId(product.id);
     setIsModalOpen(true);
   };
@@ -60,6 +66,9 @@ export default function ProductsManager() {
     }
 
     try {
+      const allImages = [formData.image, formData.image2, formData.image3, formData.image4].filter(img => img && img.trim() !== '');
+      const primaryImage = allImages.length > 0 ? allImages[0] : 'https://images.unsplash.com/photo-1523293115678-d29062015e14?auto=format&fit=crop&q=80&w=800';
+
       const productData = {
         name: formData.name,
         itemCode: formData.itemCode,
@@ -67,7 +76,8 @@ export default function ProductsManager() {
         priceLKR: Number(formData.priceLKR) || 0,
         priceQAR: Number(formData.priceQAR) || 0,
         description: formData.description || '',
-        image: formData.image || 'https://images.unsplash.com/photo-1523293115678-d29062015e14?auto=format&fit=crop&q=80&w=800'
+        image: primaryImage,
+        images: allImages.length > 0 ? allImages : [primaryImage]
       };
 
       if (editingId) {
@@ -230,26 +240,52 @@ export default function ProductsManager() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">Product Image URL</label>
-                <div className="flex flex-col gap-4">
+                <label className="block text-sm font-medium text-gray-400 mb-2">Product Images (Up to 4)</label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <input
                     type="text"
-                    placeholder="https://example.com/image.jpg"
+                    placeholder="Image 1 URL (Primary)"
                     value={formData.image}
                     onChange={(e) => setFormData({ ...formData, image: e.target.value })}
                     className="w-full bg-[#0f1014] border border-[#2e303a] rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[#d4af37]"
                   />
-                  {formData.image && formData.image.startsWith('http') ? (
-                    <div className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-[#2e303a] rounded-lg bg-[#0f1014]">
-                      <img src={formData.image} alt="Preview" className="h-40 object-contain mb-2 rounded" />
-                      <span className="text-gray-500 text-xs uppercase tracking-wider">Image Preview</span>
-                    </div>
-                  ) : (
-                    <div className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-[#2e303a] rounded-lg bg-[#0f1014] text-gray-500">
-                      <ImageIcon size={32} className="mb-3 opacity-50" />
-                      <span className="text-sm">Paste a valid image URL above to see preview</span>
-                    </div>
-                  )}
+                  <input
+                    type="text"
+                    placeholder="Image 2 URL"
+                    value={formData.image2}
+                    onChange={(e) => setFormData({ ...formData, image2: e.target.value })}
+                    className="w-full bg-[#0f1014] border border-[#2e303a] rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[#d4af37]"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Image 3 URL"
+                    value={formData.image3}
+                    onChange={(e) => setFormData({ ...formData, image3: e.target.value })}
+                    className="w-full bg-[#0f1014] border border-[#2e303a] rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[#d4af37]"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Image 4 URL"
+                    value={formData.image4}
+                    onChange={(e) => setFormData({ ...formData, image4: e.target.value })}
+                    className="w-full bg-[#0f1014] border border-[#2e303a] rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-[#d4af37]"
+                  />
+                </div>
+                
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {[formData.image, formData.image2, formData.image3, formData.image4].map((img, idx) => (
+                    img && img.startsWith('http') ? (
+                      <div key={idx} className="flex flex-col items-center justify-center p-2 border-2 border-dashed border-[#2e303a] rounded-lg bg-[#0f1014]">
+                        <img src={img} alt={`Preview ${idx+1}`} className="h-24 w-full object-cover mb-1 rounded" />
+                        <span className="text-gray-500 text-[10px] uppercase tracking-wider">Preview {idx+1}</span>
+                      </div>
+                    ) : (
+                      <div key={idx} className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-[#2e303a] rounded-lg bg-[#0f1014] text-gray-500 h-[126px]">
+                        <ImageIcon size={24} className="mb-2 opacity-50" />
+                        <span className="text-[10px] text-center">Image {idx+1}</span>
+                      </div>
+                    )
+                  ))}
                 </div>
               </div>
             </div>

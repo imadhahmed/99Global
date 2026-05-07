@@ -44,7 +44,7 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="text-5xl md:text-7xl font-serif text-white mb-6 uppercase tracking-widest"
           >
-            Redefine <span className="text-gradient">Luxury</span>
+            NINETY NINE <span className="text-gradient">GLOBAL</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -114,7 +114,7 @@ export default function Home() {
               transition={{ duration: 0.8 }}
             >
               <img
-                src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&q=80&w=1000"
+                src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&q=80&w=1000"
                 alt="Brand Story"
                 className="w-full h-[600px] object-cover rounded-sm grayscale hover:grayscale-0 transition-all duration-700"
               />

@@ -13,7 +13,7 @@ export default function Login({ onLogin }) {
     if (email === 'muhammadsadihq@gmail.com' && password === 'admin123') {
       onLogin();
     } else {
-      setError('Invalid email or password. Hint: Use admin123 as password.');
+      setError('Invalid email or password.');
     }
   };
 
@@ -42,7 +42,7 @@ export default function Login({ onLogin }) {
                 type="email"
                 required
                 className="w-full bg-[#0f1014] border border-[#2e303a] rounded-lg pl-10 pr-4 py-3 text-white focus:outline-none focus:border-[#d4af37] transition-colors"
-                placeholder="muhammadsadihq@gmail.com"
+                placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />

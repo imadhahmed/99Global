@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, MessageCircle } from 'lucide-react';
+import { ArrowLeft, MessageCircle, Share2, Check } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -10,6 +10,27 @@ export default function ProductDetails() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleShare = async () => {
+    const shareData = {
+      title: `NINETY NINE - ${product?.name}`,
+      text: `Check out ${product?.name} at NINETY NINE`,
+      url: window.location.href,
+    };
+
+    try {
+      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+      }
+    } catch (err) {
+      console.error("Error sharing:", err);
+    }
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -31,6 +52,11 @@ export default function ProductDetails() {
     
     fetchProduct();
   }, [id]);
+
+  const images = product?.images && product.images.length > 0 
+    ? product.images 
+    : [product?.image || 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=600'];
+  const [selectedImage, setSelectedImage] = useState(0);
 
   if (isLoading) {
     return (
@@ -61,18 +87,33 @@ export default function ProductDetails() {
       </Link>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24 items-start">
-        {/* Product Image */}
+        {/* Product Image Gallery */}
         <motion.div 
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
-          className="relative aspect-[4/5] bg-[#1f2028] border border-[#2e303a] p-2"
+          className="flex flex-col gap-4"
         >
-          <img 
-            src={product.image || 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=600'} 
-            alt={product.name}
-            className="object-cover w-full h-full"
-          />
+          <div className="relative aspect-[4/5] bg-[#1f2028] border border-[#2e303a] p-2">
+            <img 
+              src={images[selectedImage]} 
+              alt={product.name}
+              className="object-cover w-full h-full transition-opacity duration-300"
+            />
+          </div>
+          {images.length > 1 && (
+            <div className="grid grid-cols-4 gap-4">
+              {images.map((img, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setSelectedImage(idx)}
+                  className={`relative aspect-square bg-[#1f2028] border p-1 transition-colors ${selectedImage === idx ? 'border-[#d4af37]' : 'border-[#2e303a] hover:border-gray-500'}`}
+                >
+                  <img src={img} alt={`${product.name} thumbnail ${idx + 1}`} className="object-cover w-full h-full" />
+                </button>
+              ))}
+            </div>
+          )}
         </motion.div>
 
         {/* Product Info */}
@@ -84,7 +125,17 @@ export default function ProductDetails() {
         >
           <div className="text-sm text-[#d4af37] uppercase tracking-widest mb-4 flex justify-between items-center">
             <span>{product.category}</span>
-            <span className="text-gray-500">Code: {product.itemCode}</span>
+            <div className="flex items-center gap-4">
+              <span className="text-gray-500">Code: {product.itemCode}</span>
+              <button 
+                onClick={handleShare}
+                className="text-gray-400 hover:text-[#d4af37] transition-colors flex items-center gap-1"
+                title="Share Product"
+              >
+                {isCopied ? <Check size={18} className="text-green-500" /> : <Share2 size={18} />}
+                {isCopied && <span className="text-green-500 text-xs lowercase tracking-normal">Copied!</span>}
+              </button>
+            </div>
           </div>
           
           <h1 className="text-4xl md:text-5xl font-serif text-white mb-6 leading-tight">

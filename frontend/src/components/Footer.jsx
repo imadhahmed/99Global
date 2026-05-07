@@ -22,9 +22,15 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-medium mb-4 tracking-wider uppercase">Contact</h3>
             <ul className="space-y-2 text-sm text-gray-400">
-              <li>muhammadsadihq@gmail.com</li>
-              <li className="flex items-center gap-2"><span>🇱🇰</span> +94 75 461 4546</li>
-              <li className="flex items-center gap-2"><span>🇶🇦</span> +974 7099 8206</li>
+              <li>
+                <a href="mailto:muhammadsadihq@gmail.com" className="hover:text-[#d4af37] transition-colors">muhammadsadihq@gmail.com</a>
+              </li>
+              <li>
+                <a href="https://wa.me/94754614546" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[#d4af37] transition-colors"><span>🇱🇰</span> +94 75 461 4546</a>
+              </li>
+              <li>
+                <a href="https://wa.me/97470998206" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[#d4af37] transition-colors"><span>🇶🇦</span> +974 7099 8206</a>
+              </li>
             </ul>
           </div>
           <div>
