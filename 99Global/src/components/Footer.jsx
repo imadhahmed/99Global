@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <img src="/99Globalcpy.png" alt="Ninty Nine Global" className="h-14 w-auto object-contain" />
+            <img src="/99Globalcpy.png" alt="NINETY NINE" className="h-14 w-auto object-contain" />
             <p className="mt-4 text-sm text-gray-400">
               Premium luxury perfumes and watches. Elevate your presence with our exclusive collections.
             </p>
@@ -29,7 +29,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-12 pt-8 border-t border-[#2e303a] text-center text-sm text-gray-500">
-          &copy; {new Date().getFullYear()} Ninty Nine Global. All rights reserved.
+          &copy; {new Date().getFullYear()} NINETY NINE. All rights reserved.
         </div>
       </div>
     </footer>

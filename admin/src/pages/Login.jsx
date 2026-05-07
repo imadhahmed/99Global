@@ -21,7 +21,7 @@ export default function Login({ onLogin }) {
     <div className="min-h-screen bg-[#0f1014] flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-[#16171d] border border-[#2e303a] rounded-xl shadow-2xl p-8">
         <div className="text-center mb-8 flex flex-col items-center justify-center">
-          <img src="/99Globalcpy.png" alt="Ninty Nine Global" className="h-20 w-auto object-contain mb-4" />
+          <img src="/99Globalcpy.png" alt="NINETY NINE" className="h-20 w-auto object-contain mb-4" />
           <p className="text-gray-400 text-sm tracking-widest uppercase">Admin Portal</p>
         </div>
 

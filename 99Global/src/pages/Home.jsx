@@ -12,16 +12,16 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
-          <img 
-            src="https://images.unsplash.com/photo-1615486171448-4fd13dbd7e97?auto=format&fit=crop&q=80&w=2000" 
-            alt="Luxury Background" 
+          <img
+            src="https://images.unsplash.com/photo-1615486171448-4fd13dbd7e97?auto=format&fit=crop&q=80&w=2000"
+            alt="Luxury Background"
             className="w-full h-full object-cover opacity-40 mix-blend-overlay"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0f1014]/50 to-[#0f1014]"></div>
         </div>
-        
+
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -29,7 +29,7 @@ export default function Home() {
           >
             Redefine <span className="text-gradient">Luxury</span>
           </motion.h1>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -78,7 +78,7 @@ export default function Home() {
             </motion.div>
           ))}
         </div>
-        
+
         <div className="mt-12 md:hidden flex justify-center">
           <Link to="/products" className="flex items-center text-[#d4af37] hover:text-white transition-colors tracking-widest uppercase text-sm font-medium">
             View All Collection <ArrowRight className="ml-2 w-4 h-4" />
@@ -96,9 +96,9 @@ export default function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <img 
-                src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&q=80&w=1000" 
-                alt="Brand Story" 
+              <img
+                src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&q=80&w=1000"
+                alt="Brand Story"
                 className="w-full h-[600px] object-cover rounded-sm grayscale hover:grayscale-0 transition-all duration-700"
               />
             </motion.div>
@@ -108,12 +108,12 @@ export default function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-3xl md:text-4xl font-serif text-white uppercase tracking-widest mb-6">The Art of <br/><span className="text-gradient">Elegance</span></h2>
+              <h2 className="text-3xl md:text-4xl font-serif text-white uppercase tracking-widest mb-6">The Art of <br /><span className="text-gradient">Elegance</span></h2>
               <p className="text-gray-400 mb-6 font-light leading-relaxed">
-                At Ninty Nine Global, we believe that true luxury lies in the details. Every fragrance we curate and every timepiece we select represents the pinnacle of craftsmanship and design.
+                At NINETY NINE, we believe that true luxury lies in the details. Every fragrance we curate and every timepiece we select represents the pinnacle of craftsmanship and design.
               </p>
               <p className="text-gray-400 mb-10 font-light leading-relaxed">
-                Our collections are carefully sourced from around the world to bring you pieces that not only complement your style but elevate your very presence. Experience the extraordinary.
+                Our collections are carefully sourced from around the world to bring you pieces that not only complement your style but also elevate your very presence. Experience the extraordinary.
               </p>
               <img src="/signature.png" alt="Signature" className="h-12 opacity-50 hidden" /> {/* Placeholder for signature */}
             </motion.div>

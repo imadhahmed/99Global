@@ -26,7 +26,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         <div className="flex items-center justify-between h-20 px-6 border-b border-[#2e303a]">
-          <img src="/99Globalcpy.png" alt="Ninty Nine Global" className="h-10 w-auto object-contain" />
+          <img src="/99Globalcpy.png" alt="NINETY NINE" className="h-10 w-auto object-contain" />
           <button 
             onClick={() => setIsOpen(false)}
             className="md:hidden text-gray-400 hover:text-white"

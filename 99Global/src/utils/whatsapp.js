@@ -3,7 +3,7 @@ export const generateWhatsAppLink = (product, phoneNumber, region = "LK") => {
     ? `Rs. ${Number(product.priceLKR).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`
     : `QAR ${Number(product.priceQAR).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
-  const message = `Hello Ninty Nine Global,
+  const message = `Hello NINETY NINE,
 
 I would like to order this item:
 *Product:* ${product.name}

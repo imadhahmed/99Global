@@ -11,9 +11,9 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-20">
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-3">
-              <img src="/99Globalcpy.png" alt="Ninty Nine Global" className="h-12 w-auto object-contain" />
+              <img src="/99Globalcpy.png" alt="NINETY NINE" className="h-12 w-auto object-contain" />
               <span className="text-lg md:text-xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] to-white font-bold tracking-wider hidden sm:block">
-                NINTY NINE GLOBAL
+                NINETY NINE
               </span>
             </Link>
           </div>
