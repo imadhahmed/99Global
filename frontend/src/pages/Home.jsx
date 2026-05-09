@@ -6,10 +6,12 @@ import Luxury3DElement from '../components/Luxury3DElement';
 import { useState, useEffect } from 'react';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Home() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { t, language } = useLanguage();
 
   const heroImages = [
     "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?auto=format&fit=crop&q=80&w=2000",
@@ -53,9 +55,9 @@ export default function Home() {
               key={currentSlide}
               src={heroImages[currentSlide]}
               alt="Luxury Background"
-              initial={{ x: '100%', opacity: 0.7 }}
-              animate={{ x: 0, opacity: 0.7 }}
-              exit={{ x: '-100%', opacity: 0.7 }}
+              initial={{ x: '100%', opacity: 0.75 }}
+              animate={{ x: 0, opacity: 0.75 }}
+              exit={{ x: '-100%', opacity: 0.75 }}
               transition={{ duration: 1, ease: "easeInOut" }}
               className="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
             />
@@ -70,7 +72,7 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="text-4xl sm:text-5xl md:text-7xl font-serif text-white mb-4 sm:mb-6 uppercase tracking-widest"
           >
-            NINETY NINE <span className="text-gradient">GLOBAL</span>
+            {t('hero_title_1')} <span className="text-gradient">{t('hero_title_2')}</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -78,7 +80,7 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-base sm:text-lg md:text-xl text-gray-300 mb-8 sm:mb-10 max-w-2xl mx-auto font-light px-2"
           >
-            Discover our exclusive collection of premium perfumes and masterfully crafted timepieces.
+            {t('hero_subtitle')}
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -86,12 +88,16 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6"
           >
-            <Link to="/products?category=Perfumes" className="px-6 py-3 md:px-8 md:py-4 text-sm md:text-base bg-[#d4af37] text-black font-medium tracking-wider uppercase hover:bg-white transition-colors duration-300 w-full sm:w-auto text-center">
-              Shop Perfumes
-            </Link>
-            <Link to="/products?category=Watches" className="px-6 py-3 md:px-8 md:py-4 text-sm md:text-base bg-transparent border border-[#d4af37] text-[#d4af37] font-medium tracking-wider uppercase hover:bg-[#d4af37] hover:text-black transition-colors duration-300 w-full sm:w-auto text-center">
-              Shop Watches
-            </Link>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
+              <Link to="/products?category=Perfumes" className="block px-6 py-3 md:px-8 md:py-4 text-sm md:text-base bg-[#d4af37] text-black font-medium tracking-wider uppercase hover:bg-white transition-colors duration-300 text-center">
+                {t('shop_perfumes')}
+              </Link>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
+              <Link to="/products?category=Watches" className="block px-6 py-3 md:px-8 md:py-4 text-sm md:text-base bg-transparent border border-[#d4af37] text-[#d4af37] font-medium tracking-wider uppercase hover:bg-[#d4af37] hover:text-black transition-colors duration-300 text-center">
+                {t('shop_watches')}
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -100,12 +106,14 @@ export default function Home() {
       <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         <div className="flex justify-between items-end mb-12">
           <div>
-            <h2 className="text-3xl md:text-4xl font-serif text-white uppercase tracking-widest mb-2">Featured Collection</h2>
+            <h2 className="text-3xl md:text-4xl font-serif text-white uppercase tracking-widest mb-2">{t('featured_collection')}</h2>
             <div className="h-1 w-24 bg-[#d4af37]"></div>
           </div>
-          <Link to="/products" className="hidden md:flex items-center text-[#d4af37] hover:text-white transition-colors tracking-widest uppercase text-sm font-medium">
-            View All <ArrowRight className="ml-2 w-4 h-4" />
-          </Link>
+          <motion.div whileHover={{ x: language === 'ar' ? -5 : 5 }}>
+            <Link to="/products" className="hidden md:flex items-center text-[#d4af37] hover:text-white transition-colors tracking-widest uppercase text-sm font-medium">
+              {t('view_all')} <ArrowRight className={`w-4 h-4 ${language === 'ar' ? 'mr-2 rotate-180' : 'ml-2'}`} />
+            </Link>
+          </motion.div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -122,11 +130,11 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="mt-12 md:hidden flex justify-center">
+        <motion.div whileHover={{ scale: 1.05 }} className="mt-12 md:hidden flex justify-center">
           <Link to="/products" className="flex items-center text-[#d4af37] hover:text-white transition-colors tracking-widest uppercase text-sm font-medium">
-            View All Collection <ArrowRight className="ml-2 w-4 h-4" />
+            {t('view_all_collection')} <ArrowRight className={`w-4 h-4 ${language === 'ar' ? 'mr-2 rotate-180' : 'ml-2'}`} />
           </Link>
-        </div>
+        </motion.div>
       </section>
 
       {/* Cinematic Video Section */}
@@ -149,10 +157,10 @@ export default function Home() {
           transition={{ duration: 1 }}
           className="relative z-10 text-center px-4 max-w-3xl"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-6xl font-serif text-white uppercase tracking-widest mb-4 sm:mb-6">Timeless <span className="text-gradient">Precision</span></h2>
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-serif text-white uppercase tracking-widest mb-4 sm:mb-6">{t('timeless_precision')} <span className="text-gradient">{t('precision')}</span></h2>
           <div className="h-1 w-16 sm:w-24 bg-[#d4af37] mx-auto mb-4 sm:mb-6"></div>
           <p className="text-gray-300 font-light text-base sm:text-lg md:text-xl leading-relaxed">
-            Witness the marriage of engineering and art. Our collections are born from an uncompromising dedication to perfection.
+            {t('timeless_desc')}
           </p>
         </motion.div>
       </section>
@@ -168,7 +176,7 @@ export default function Home() {
               transition={{ duration: 0.8 }}
               className="h-[400px] md:h-[600px] w-full bg-[#0a0a0c] rounded-sm overflow-hidden relative shadow-2xl border border-[#d4af37]/10"
             >
-              <div className="absolute top-4 left-4 z-10 bg-black/60 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded border border-[#d4af37]/30 text-[10px] md:text-xs text-[#d4af37] uppercase tracking-widest font-medium">Interactive 3D Experience</div>
+              <div className="absolute top-4 left-4 rtl:left-auto rtl:right-4 z-10 bg-black/60 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded border border-[#d4af37]/30 text-[10px] md:text-xs text-[#d4af37] uppercase tracking-widest font-medium">{t('interactive_3d')}</div>
               <Luxury3DElement />
             </motion.div>
             <motion.div
@@ -177,12 +185,12 @@ export default function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-white uppercase tracking-widest mb-4 sm:mb-6">The Art of <br /><span className="text-gradient">Elegance</span></h2>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-white uppercase tracking-widest mb-4 sm:mb-6">{t('art_of')} <br /><span className="text-gradient">{t('elegance')}</span></h2>
               <p className="text-gray-400 mb-4 sm:mb-6 font-light leading-relaxed text-sm sm:text-base">
-                At NINETY NINE, we believe that true luxury lies in the details. Every fragrance we curate and every timepiece we select represents the pinnacle of craftsmanship and design.
+                {t('brand_story_1')}
               </p>
               <p className="text-gray-400 mb-10 font-light leading-relaxed">
-                Our collections are carefully sourced from around the world to bring you pieces that not only complement your style but also elevate your very presence. Experience the extraordinary.
+                {t('brand_story_2')}
               </p>
               <img src="/signature.png" alt="Signature" className="h-12 opacity-50 hidden" /> {/* Placeholder for signature */}
             </motion.div>
