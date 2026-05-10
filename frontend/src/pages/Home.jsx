@@ -10,25 +10,7 @@ import { useLanguage } from '../context/LanguageContext';
 
 export default function Home() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
-  const [currentSlide, setCurrentSlide] = useState(0);
   const { t, language } = useLanguage();
-
-  const heroImages = [
-    "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?auto=format&fit=crop&q=80&w=2000",
-    "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?auto=compress&cs=tinysrgb&w=2000",
-    "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=2000",
-    "https://images.pexels.com/photos/277390/pexels-photo-277390.jpeg?auto=compress&cs=tinysrgb&w=2000",
-    "https://images.unsplash.com/photo-1590736704728-f4730bb30770?auto=format&fit=crop&q=80&w=2000",
-    "https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg?auto=compress&cs=tinysrgb&w=2000",
-    "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&q=80&w=2000"
-  ];
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroImages.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, 'products'), (snapshot) => {
@@ -48,57 +30,18 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden bg-[#0f1014]">
-        <div className="absolute inset-0">
-          <AnimatePresence initial={false}>
-            <motion.img
-              key={currentSlide}
-              src={heroImages[currentSlide]}
-              alt="Luxury Background"
-              initial={{ x: '100%', opacity: 0.75 }}
-              animate={{ x: 0, opacity: 0.75 }}
-              exit={{ x: '-100%', opacity: 0.75 }}
-              transition={{ duration: 1, ease: "easeInOut" }}
-              className="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
-            />
-          </AnimatePresence>
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0f1014]/50 to-[#0f1014] z-0"></div>
-        </div>
-
-        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-4xl sm:text-5xl md:text-7xl font-serif text-white mb-4 sm:mb-6 uppercase tracking-widest"
+      <section className="relative h-[50vh] md:h-[90vh] flex items-center justify-center overflow-hidden bg-black w-full">
+        <div className="absolute inset-0 w-full h-full flex items-center justify-center">
+          <video 
+            autoPlay 
+            loop 
+            muted 
+            playsInline 
+            className="w-full h-full object-contain md:object-cover max-w-full"
           >
-            {t('hero_title_1')} <span className="text-gradient">{t('hero_title_2')}</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-base sm:text-lg md:text-xl text-gray-300 mb-8 sm:mb-10 max-w-2xl mx-auto font-light px-2"
-          >
-            {t('hero_subtitle')}
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6"
-          >
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
-              <Link to="/products?category=Perfumes" className="block px-6 py-3 md:px-8 md:py-4 text-sm md:text-base bg-[#d4af37] text-black font-medium tracking-wider uppercase hover:bg-white transition-colors duration-300 text-center">
-                {t('shop_perfumes')}
-              </Link>
-            </motion.div>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
-              <Link to="/products?category=Watches" className="block px-6 py-3 md:px-8 md:py-4 text-sm md:text-base bg-transparent border border-[#d4af37] text-[#d4af37] font-medium tracking-wider uppercase hover:bg-[#d4af37] hover:text-black transition-colors duration-300 text-center">
-                {t('shop_watches')}
-              </Link>
-            </motion.div>
-          </motion.div>
+            <source src="/intro-video.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0f1014] pointer-events-none"></div>
         </div>
       </section>
 
