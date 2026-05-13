@@ -9,8 +9,11 @@ export default function Login({ onLogin }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
-    // Hardcoded demo login
-    if (email === 'muhammadsadihq@gmail.com' && password === 'admin123') {
+    // Check credentials against environment variables
+    const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
+    const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+
+    if (email === adminEmail && password === adminPassword) {
       onLogin();
     } else {
       setError('Invalid email or password.');
